@@ -1,0 +1,88 @@
+{% extends "layout.html.twig" %}
+{% set articleMenu = true %}
+
+{% block title %}{{ article.libelle }}{% endblock %}
+
+{% block content %}
+<h2 class="text-center">{{ block('title') }}</h2>
+
+{% for flashMessage in app.session.flashbag.get('success') %}
+<div class="alert alert-success">
+ {{ flashMessage }}
+</div>
+{% endfor %}
+
+<div class="well">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Type</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ article.typearticle.libelle }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">nom</label>
+            <div class="col-sm-9">
+            <p class="form-control-static">{{ article.libelle }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">taille disponible</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ article.taille }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">couleur</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ article.couleurarticle.libelle }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Description</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ article.description }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Prix</label>
+            <div class="col-sm-9">
+                <p class="form-control-static">{{ article.prix}}</p>
+            </div>
+        </div>
+    </form>
+</div>
+<p>
+
+    <h3>Commentaires</h3>
+    {% for comment in comments %}
+        <strong>{{ comment.author.username }}</strong> : {{ comment.content }}<br>
+    {% else %}
+        Soyez le premier a écrire un commentaire!
+    {% endfor %}
+
+    <h3>Ajouter un commentaire</h3>
+    {% if commentForm %}
+        {{ form_start(commentForm) }}
+            <div class="form-group">
+                {{ form_errors(commentForm.content) }}
+                {{ form_widget(commentForm.content, { 'attr':  {
+                    'rows': '4',
+                    'class': 'form-control',
+                    'placeholder': 'Avez-vous aimé cet article?'
+                }}) }}
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Publier" />
+            </div>
+        {{ form_end(commentForm) }}
+        {% for flashMessage in app.session.flashbag.get('success') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+    {% else %}
+        <a href="{{ path('login') }} ">Connectez-vous</a> pour ajouter des commentaires.
+    {% endif %}
+</p>
+{% endblock %}

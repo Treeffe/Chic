@@ -1,0 +1,113 @@
+{% extends "layout.html.twig" %}
+
+{% set articleMenu = true %}
+{% block title %}Articles{% endblock %}
+
+
+{% block content %}
+<h2 class="text-center">{{ block('title') }}</h2>
+{% if articles_hommes %}
+ {% for article in articles_hommes %}
+
+<div id="content">
+	<div class="jumbotron">
+		<div class="row">
+			
+			 <div class="col-lg-6 col-md-5 col-sm-7 col-xs-12">
+				
+                   <button type="button" class="btn " title="agrandir" data-toggle="modal" data-target="#article-modal{{article.code}}">
+                        <span class="glyphicon glyphicon-zoom-in">Agrandir</span> 
+<img class="img-responsive" style="border-radius: 50px; border:4px solid white; width:300px; height:300px; box-shadow: 1px 1px 10px #555;" src="{{ app.request.basepath }}/images/{{ article.code }}.jpg" />
+                        </button>
+            
+                 
+			</div>	
+				<!-- modal window, fade: transition effect -->
+            
+				<div class="modal fade" id="article-modal{{ article.code }}"  role="dialog"  aria-hidden="true">
+						<div class="modal-dialog">
+   		 					<div class="modal-content">
+      							<div class="modal-header article_modal_header">
+        							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        						  
+      							</div>
+                      <div class="form-group">
+                       
+                        
+			         <img class="img-responsive" src="{{ app.request.basepath }}/images/{{ article.code }}.jpg" title ="Détails" alt="LogoChic "/>
+              
+                    </div>
+      				      
+    						</div>
+    					</div>
+    			</div> 
+				
+			
+			<div class="col-lg-6 col-md-7 col-sm-5 col-xs-12">
+				<h2>
+					<a>{{ article.libelle }}</a><br/> 
+					{{article.prix}} euro
+					
+				</h2>
+				
+				<a type="submit" href="/article/{{ article.code }}" class="btn btn-primary">
+							Détails
+					</a></br>
+				
+				{% if app.security.token and is_granted('IS_AUTHENTICATED_FULLY') %}
+					
+						<a type="submit" href="/panier/ajouter/{{ app.security.token.user.id }}/{{ article.code }}" class="btn btn-primary">
+							Je craque !
+						</a>
+				
+				
+					<br /><br />
+					{% for flashMessage in app.session.flashbag.get('panier') %}
+					<div class="alert alert-success">
+						{{ flashMessage }}
+					</div>
+					{% endfor %}
+					{% for flashMessage in app.session.flashbag.get('panier_error') %}
+					<div class="alert alert-danger">
+						{{ flashMessage }}
+					</div>
+					{% endfor %}
+                {% else %}
+			<br></br>
+				<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Ajouter au panier</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+			<a>Vous devez vous connecter pour commander</a>
+			 <a type="submit"  href="{{ path('login') }}" class="btn btn-default" >Je me connecte</a>
+     
+	 <a type="submit" href="{{ path('inscription') }}" class="btn btn-default" >Je m'inscris</a>
+			
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">J'ai compris!</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+					
+                {% endif %}
+				
+					
+			</div>
+            
+		</div>
+	</div>
+
+ {% endfor %}
+{% endif %}
+
+{% endblock %}
