@@ -12,11 +12,5 @@ Pour utiliser notre application:
 
 Informations:
 	- Nous n'avons qu'un article de chaque, pour cette raison vous ne pouvez pas ajouter plusieurs fois le même article au panier.
-	- Le glyphicon shopping (ajout au panier) est volontairement présent même si l'utilisateur n'est pas authentifié (il en est de même pour les sites web similaires)
 
-![img](http://www.blog-gestion-de-projet.com/wp-content/uploads/2015/07/DSC7509compressed-test.jpg)
-
-
-Bonne visite ;)
-
-Copyright aya_ilakkiya_thibaut
+![img](https://www.jumblebee.co.uk/site/wp-content/uploads/2014/06/JB-FE-Shop_10.png)
